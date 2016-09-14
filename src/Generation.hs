@@ -8,10 +8,10 @@ import Misc
  -  numbers.-}
 
 maxCandidate :: Integer -> Integer -> [Integer]
-maxCandidate base freq = map (* freq) (newReplicate base 1) 
+maxCandidate base weight = map (* weight) (newReplicate base 1) 
 
 candRange :: Integer -> Integer -> [[Integer]]
-candRange base freq = map (range 0) (maxCandidate base freq)
+candRange base weight = map (range 0) (maxCandidate base weight)
 
 range :: Integer -> Integer -> [Integer]
 range start end = [start..end]
@@ -25,10 +25,10 @@ lengthCheck :: Integer -> [Integer] -> Bool
 lengthCheck base list = base == (genericLength list)
 
 genCands' :: Integer -> Integer -> [[Integer]]
-genCands' base freq = (filter (lengthCheck base) . combos . (candRange base)) freq
+genCands' base weight = (filter (lengthCheck base) . combos . (candRange base)) weight
 
 genCands :: Integer -> Integer -> [Number]
-genCands base freq = map (makeNumber base) (genCands' base freq)
+genCands base weight = map (makeNumber base) (genCands' base weight)
 
 makeSet :: Integer -> [Integer] -> [Integer]
 makeSet _ [] = []
@@ -36,13 +36,13 @@ makeSet start (num:[]) = newReplicate num start
 makeSet start (num:nums) = (newReplicate num start) ++ (makeSet (start + 1) nums)
 
 genCands2 :: Integer -> Integer -> Integer -> [Number]
-genCands2 base freq root = ((map (\x -> (x,base))).(map (makeLength base))) (filter (\x -> (sum (conferSetToInt base x)) `mod` root == 0) (map (toBase (freq+1)) [0..rangeMax]))
-    where rangeMax = (freq+1) ^ base - 1
+genCands2 base weight root = ((map (\x -> (x,base))).(map (makeLength base))) (filter (\x -> (sum (conferSetToInt base x)) `mod` root == 0) (map (toBase (weight+1)) [0..rangeMax]))
+    where rangeMax = (weight+1) ^ base - 1
 
 makeLength :: Integer -> [Integer] -> [Integer]
 makeLength len list = genericReplicate (len - listLength) 0 ++ list
     where listLength = genericLength list
 
 genCands3 :: Integer -> Integer -> Integer -> [Number]
-genCands3 base freq root = ((map (\x -> (x,base))).(map (makeLength base))) (filter (\x -> (sum (conferSetToInt base x)) `mod` root == 0) (map (toBase (freq+1)) [0..rangeMax]))
-    where   rangeMax = (freq+1) ^ (base-1) -2
+genCands3 base weight root = ((map (\x -> (x,base))).(map (makeLength base))) (filter (\x -> (sum (conferSetToInt base x)) `mod` root == 0) (map (toBase (weight+1)) [0..rangeMax]))
+    where   rangeMax = (weight+1) ^ (base-1) -2
