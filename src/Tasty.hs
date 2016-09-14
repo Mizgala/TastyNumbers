@@ -82,3 +82,14 @@ constructWeightTwoTasty base
 
 constructWeightFourTasty :: Integer -> Number
 constructWeightFourTasty base = ([3,4,4,3] ++ (newReplicate (base - 7) 4) ++ [3,3,4],base)
+
+constructWeightThreeTastyO :: Integer -> Number
+constructWeightThreeTastyO base = ((newReplicate ((base+1) `div` 2 - 1) 3 ) ++ [2,3,2] ++ ((newReplicate ((base+1) `div` 2 - 5) 3) ++ [1,3]), base)
+
+constructWeightThreeTastyE :: Integer -> Number
+constructWeightThreeTastyE base = ([2] ++ (newReplicate ((base `div` 2) - 4) 3) ++ [2,3,3,3,3,3,2] ++ (newReplicate ((base `div` 2) - 6) 3) ++ [2,3], base)
+
+constructWeightThreeTasty :: Integer -> Number
+constructWeightThreeTasty base
+    | even base = constructWeightThreeTastyE base
+    | otherwise = constructWeightThreeTastyO base
