@@ -60,8 +60,18 @@ makeTasty num = ((head digits) + newZeros : (tail digits), snd num)
             newZeros = ones - zeros
             digits = fst num
 
-constructEvenBaseTasty :: Integer -> Number
-constructEvenBaseTasty base = ([0] ++ (newReplicate group1 1) ++ [0] ++ [1,1,1,1] ++ [0] ++ (newReplicate group2 1), base)
+constructWeightOneTasty :: Integer -> Number
+constructWeightOneTasty base
+    | even base = constructWeightOneTastyE base
+    | otherwise = constructWeightOneTastyO base
+
+constructWeightOneTastyO :: Integer -> Number
+constructWeightOneTastyO base = ((newReplicate group1 1) ++ [0,0] ++ (newReplicate group2 1) ++ [0,1],base)
+    where   group1 = (base + 1) `div` 2 - 1
+            group2 = group1 - 3
+
+constructWeightOneTastyE :: Integer -> Number
+constructWeightOneTastyE base = ([0] ++ (newReplicate group1 1) ++ [0] ++ [1,1,1,1] ++ [0] ++ (newReplicate group2 1), base)
     where   group1 = (base `div` 2 - 4)
             group2 = (base `div` 2 - 3)
 
