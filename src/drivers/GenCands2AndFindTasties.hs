@@ -16,26 +16,26 @@ main = do
         
 getCands :: [String] -> [Number]
 getCands input = filter (\x -> (sum.(conferSetToInt(snd x))) (fst x) `mod` root == 0) out
-    where   out = genCands2 base freq root
+    where   out = genCands2 base weight root
             base = (getBase.strListToIntegerTuple) input
-            freq = (getFreq.strListToIntegerTuple) input
-            root = (getRoot.strListToIntegerTuple) input
+            weight = (getWeight.strListToIntegerTuple) input
+            root = (getIntRoot.strListToIntegerTuple) input
     
 
 lineToList :: String -> [String]
 lineToList input = words input
 
 strListToIntegerTuple :: [String] -> (Integer,Integer,Integer)
-strListToIntegerTuple (base:freq:root:[]) = (intBase, intFreq, intRoot)
+strListToIntegerTuple (base:weight:root:[]) = (intBase, intWeight, intRoot)
     where intBase = read base :: Integer
-          intFreq = read freq :: Integer
+          intWeight = read weight :: Integer
           intRoot = read root :: Integer
 
 getBase :: (Integer,Integer,Integer) -> Integer
-getBase (base,freq,root) = base
+getBase (base,weight,root) = base
 
-getFreq :: (Integer,Integer,Integer) -> Integer
-getFreq (base,freq,root) = freq
+getWeight :: (Integer,Integer,Integer) -> Integer
+getWeight (base,weight,root) = weight
 
-getRoot :: (Integer,Integer,Integer) -> Integer
-getRoot (base,freq,root) = root
+getIntRoot :: (Integer,Integer,Integer) -> Integer
+getIntRoot (base,weight,root) = root
