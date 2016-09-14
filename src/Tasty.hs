@@ -69,3 +69,6 @@ constructWeightTwoTasty :: Integer -> Number
 constructWeightTwoTasty base
     | base == 5 = ([1,2,0,2,2],5)
     | otherwise = ([1,2,1] ++ (newReplicate (base - 6) 2) ++ [1,2,2],base)
+
+constructWeightFourTasty :: Integer -> Number
+constructWeightFourTasty base = ([3,4,4,3] ++ (newReplicate (base - 7) 4) ++ [3,3,4],base)
