@@ -38,3 +38,19 @@ applyFuncs (f:fs) num   = (f num : applyFuncs fs num)
 listToBase10 :: [Integer] -> Integer
 listToBase10 (num:[])   = num
 listToBase10 nums       = ((head nums) * (10 ^ (genericLength nums - 1))) + (listToBase10 (tail nums))
+
+numberToIntegers :: Number -> [Integer]
+numberToIntegers (nums,base) = numberToIntegers' (base - 1) nums
+
+numberToIntegers' :: Integer -> [Integer] -> [Integer]
+numberToIntegers' num (dig:digs)
+    | num == 0  = newReplicate dig 0
+    | otherwise = (newReplicate dig num) ++ (numberToIntegers' (num-1) digs)
+
+toBase10 :: Number -> Integer
+toBase10 num = toBase10' (snd num) (numberToIntegers num)
+
+toBase10' :: Integer -> [Integer] -> Integer
+toBase10' base nums
+    | nums == []    = 0
+    | otherwise     = (base ^ (genericLength nums - 1) * (head nums)) + (toBase10' base (tail nums))
