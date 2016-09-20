@@ -16,7 +16,7 @@ candRange base weight = map (range 0) (maxCandidate base weight)
 range :: Integer -> Integer -> [Integer]
 range start end = [start..end]
 
-combos :: [[Integer]] -> [[Integer]]
+combos :: [[a]] -> [[a]]
 combos []   = [[]]
 combos ([]:ls)  = combos ls
 combos ((h:t):ls) = map (h:) (combos ls) ++ combos (t:ls)

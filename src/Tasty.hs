@@ -25,18 +25,43 @@ getWeights'' start base nums
     | start == base     = []
     | otherwise         = weight start nums : getWeights'' (start + 1) base nums
 
+-- If this returns -1, then num is not a tasty.
+order :: Number -> Integer
+order num = countTasties nums - 1
+    where   countTasties = genericLength . (filter (isTasty))
+            nums = (projectionToNumbers.projection2) num
+
+projectionToNumbers :: Projection -> [Number]
+projectionToNumbers proj = ((head.fst) proj, snd proj) : projectionToNumbers' ((tail.fst) proj, snd proj)
+
+projectionToNumbers' :: Projection -> [Number]
+projectionToNumbers' ([],_)  = []
+projectionToNumbers' proj = (projectionToNumbers'' (snd proj - 1) ((head.fst) proj),snd proj) : projectionToNumbers' ((tail.fst) proj, snd proj)
+
+projectionToNumbers'' :: Integer -> [Integer] -> [Integer]
+projectionToNumbers'' start num
+    | start == 0    = [weight 0 num]
+    | otherwise     = weight start num : projectionToNumbers'' (start - 1) num
+
 mergeLists :: [Integer] -> [Integer] -> [Integer]
 mergeLists [] []        = []
 mergeLists nums []      = head nums : mergeLists (tail nums) []
 mergeLists [] nums      = head nums : mergeLists [] (tail nums)
 mergeLists list1 list2  = (head list1 + head list2) : mergeLists (tail list1) (tail list2)
 
-isTasty :: Number -> Bool
-isTasty num = uniqueWeights == 1
+isTasty3 :: Number -> Bool
+isTasty3 num = uniqueWeights == 1
     where uniqueWeights = (length . nub . getWeights) num
 
 isTasty2 :: Number -> Bool
 isTasty2 num = (isTasty.fromPConferSet) num
+
+isTasty :: Number -> Bool
+isTasty num = uniqueWeights == 1
+    where   uniqueWeights = (length.nub.fst.sums) nums
+            sums = foldl (numberFunction (+)) (newReplicate (snd num) 0, (snd num))
+            proj = projection2 num
+            nums = projectionToNumbers proj
 
 findTasties :: Integer -> Integer -> [Number]
 findTasties base weight = filter isTasty (genCands base weight)
@@ -59,6 +84,10 @@ makeTasty num = ((head digits) + newZeros : (tail digits), snd num)
             ones = (head . tail . getWeights) num
             newZeros = ones - zeros
             digits = fst num
+
+constructTasty :: Integer -> Integer -> Number
+constructTasty weight' base = func weight' base
+    where func = if even weight' then constructEvenWeightTasty else constructOddWeightTasty
 
 constructWeightOneTasty :: Integer -> Number
 constructWeightOneTasty base
@@ -93,3 +122,58 @@ constructWeightThreeTasty :: Integer -> Number
 constructWeightThreeTasty base
     | even base = constructWeightThreeTastyE base
     | otherwise = constructWeightThreeTastyO base
+
+constructWeightSixTasty :: Integer -> Number
+constructWeightSixTasty base = ([5,6,6,6,5] ++ (newReplicate (base - 8) 6) ++ [4,6,6],base)
+
+constructEvenWeightTasty :: Integer -> Integer -> Number
+constructEvenWeightTasty weight' base
+    | odd weight'                       = ([],base)
+    | base < ((weight' `div` 2) + 5)    = ([],base)
+    | weight' == 2                      = constructWeightTwoTasty base
+    | otherwise                         = constructEvenWeightTasty' weight' base
+
+constructOddWeightTasty :: Integer -> Integer -> Number
+constructOddWeightTasty weight' base
+    | even weight'                      = ([],base)
+    | weight' == 1                      = constructWeightOneTasty base
+    | otherwise                         = constructNewTasty weight' base
+    where   constructNewTasty = if even base then constructOddWeightTastyE else constructOddWeightTastyO
+
+constructEvenWeightTasty' :: Integer -> Integer -> Number
+constructEvenWeightTasty' weight' base = numberFunction (-) (newReplicate base weight',base) inverseNumber
+    where inverseNumber = makeInverseE weight' base
+
+makeInverseE :: Integer -> Integer -> Number
+makeInverseE weight' base = (makeList (base-1) [n1,n2,n3,n4],base) 
+    where   n1 = base - 1
+            n2 = base - ((weight' `div` 2) +2)
+            n3 = 2
+            n4 = 1 + ((weight' `div` 2) -2)
+
+makeInverseOE :: Integer -> Integer -> Number
+makeInverseOE weight' base = (makeList (base-1) [n1,n2,n3,n4],base)
+    where   n1 = base - 1
+            n2 = (base `div` 2) + 2
+            n3 = (base `div` 2) - ((weight' + 1) `div` 2 + 2)
+            n4 = (weight' - 1) `div` 2
+
+makeInverseOO :: Integer -> Integer -> Number
+makeInverseOO weight' base = (makeList (base-1) [n1,n2,n3,n4],base)
+    where   n1 = (base - 1) `div` 2
+            n2 = 1
+            n3 = (weight' - 1) `div` 2
+            n4 = ((base - 1) `div` 2) - ((weight' + 1) `div` 2)
+
+makeList :: Integer -> [Integer] -> [Integer]
+makeList start ns
+    | start == 0    = [weight 0 ns]
+    | otherwise     = weight start ns : makeList (start - 1) ns
+
+constructOddWeightTastyE :: Integer -> Integer -> Number
+constructOddWeightTastyE weight' base = numberFunction (-) (newReplicate base weight', base) inverseNumber
+    where inverseNumber = makeInverseOE weight' base
+
+constructOddWeightTastyO :: Integer -> Integer -> Number
+constructOddWeightTastyO weight' base = numberFunction (-) (newReplicate base weight', base) inverseNumber
+    where inverseNumber = makeInverseOO weight' base
