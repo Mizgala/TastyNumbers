@@ -21,11 +21,11 @@ combos []   = [[]]
 combos ([]:ls)  = combos ls
 combos ((h:t):ls) = map (h:) (combos ls) ++ combos (t:ls)
 
-lengthCheck :: Integer -> [Integer] -> Bool
-lengthCheck base list = base == (genericLength list)
+isLengthEqualToBase :: Integer -> [Integer] -> Bool
+isLengthEqualToBase base list = base == (genericLength list)
 
 genCands' :: Integer -> Integer -> [[Integer]]
-genCands' base weight = (filter (lengthCheck base) . combos . (candRange base)) weight
+genCands' base weight = (filter (isLengthEqualToBase base) . combos . (candRange base)) weight
 
 genCands :: Integer -> Integer -> [Number]
 genCands base weight = map (makeNumber base) (genCands' base weight)

@@ -11,10 +11,11 @@ main = do
         putStr "\n"
         
 getCands :: [String] -> Number
-getCands input = out
-    where   out = constructEvenBaseTasty1 base
-            base = (strToInteger) input
+getCands [weightS,baseS] = out
+    where   out = constructTasty w base
+            base = (strToInteger) baseS
+            w = (strToInteger) weightS
 
-strToInteger :: [String] -> Integer
-strToInteger (base:[]) = intBase
+strToInteger :: String -> Integer
+strToInteger (base) = intBase
     where intBase = read base :: Integer

@@ -4,17 +4,27 @@ import Numbers
 import Misc
 import Data.List (sort,nub,genericLength)
 
+--  The Merge type is a close variant of the Projection type. The
+--  difference is that, rather than having a list of lists to contain
+--  the projection, a Merge simply has all elements of a Projection's
+--  lists in a single list.
 type Merge = ([Integer], Integer)
 
+--  This function converts a Projection to a merge.
 mergeProjection :: Projection -> Merge
 mergeProjection (nums, base)    = (set, base)
     where set = foldl (++) [] (tail nums)
 
+--  This function counts the number of times that an Integer appears
+--  in a list.
 weight :: Integer -> [Integer] -> Integer
 weight num = genericLength . filter (== num)
 
+--  The following functions are used to get the weights of all digits
+--  in a base while looking at a specific Number. This function is
+--  primarily used in the checking whether or not a Number is Tasty.
 getWeights :: Number -> [Integer]
-getWeights num = mergeLists (fst num) (getWeights' (snd num) (fst number))
+getWeights num = mergeLists (fst num) (getWeights' ((abs.snd) num) (fst number))
         where number = (mergeProjection . projection) num
 
 getWeights' :: Integer -> [Integer] -> [Integer]
@@ -29,19 +39,26 @@ getWeights'' start base nums
 order :: Number -> Integer
 order num = countTasties nums - 1
     where   countTasties = genericLength . (filter (isTasty))
-            nums = (projectionToNumbers.projection2) num
+            nums = (projectionToNumbers'.projection2) num
 
 projectionToNumbers :: Projection -> [Number]
-projectionToNumbers proj = ((head.fst) proj, snd proj) : projectionToNumbers' ((tail.fst) proj, snd proj)
+projectionToNumbers proj
+    | (snd proj) > 0    = projectionToNumbers' proj
+    | (snd proj) < 0    = ((map negateBase).projectionToNumbers') (fst proj, (abs.snd) proj)
+    | otherwise         = []
+    where   negateBase = \x -> (fst x, (snd x) * (-1))
 
 projectionToNumbers' :: Projection -> [Number]
-projectionToNumbers' ([],_)  = []
-projectionToNumbers' proj = (projectionToNumbers'' (snd proj - 1) ((head.fst) proj),snd proj) : projectionToNumbers' ((tail.fst) proj, snd proj)
+projectionToNumbers' proj = ((head.fst) proj, snd proj) : projectionToNumbers'' ((tail.fst) proj, snd proj)
 
-projectionToNumbers'' :: Integer -> [Integer] -> [Integer]
-projectionToNumbers'' start num
+projectionToNumbers'' :: Projection -> [Number]
+projectionToNumbers'' ([],_)  = []
+projectionToNumbers'' proj = (projectionToNumbers''' (snd proj - 1) ((head.fst) proj),snd proj) : projectionToNumbers'' ((tail.fst) proj, snd proj)
+
+projectionToNumbers''' :: Integer -> [Integer] -> [Integer]
+projectionToNumbers''' start num
     | start == 0    = [weight 0 num]
-    | otherwise     = weight start num : projectionToNumbers'' (start - 1) num
+    | otherwise     = weight start num : projectionToNumbers''' (start - 1) num
 
 mergeLists :: [Integer] -> [Integer] -> [Integer]
 mergeLists [] []        = []
@@ -49,22 +66,25 @@ mergeLists nums []      = head nums : mergeLists (tail nums) []
 mergeLists [] nums      = head nums : mergeLists [] (tail nums)
 mergeLists list1 list2  = (head list1 + head list2) : mergeLists (tail list1) (tail list2)
 
-isTasty3 :: Number -> Bool
-isTasty3 num = uniqueWeights == 1
-    where uniqueWeights = (length . nub . getWeights) num
-
-isTasty2 :: Number -> Bool
-isTasty2 num = (isTasty.fromPConferSet) num
-
 isTasty :: Number -> Bool
-isTasty num = uniqueWeights == 1
-    where   uniqueWeights = (length.nub.fst.sums) nums
-            sums = foldl (numberFunction (+)) (newReplicate (snd num) 0, (snd num))
-            proj = projection2 num
+isTasty num = ((not.elementsRepeat.projection) num) && (uniqueWeights == 1)
+    where   uniqueWeights = (genericLength.nub.fst.sums) nums
+            sums = foldl (numberFunction (+)) (newReplicate ((abs.snd) num) 0, ((snd) num))
+            proj = projection num
             nums = projectionToNumbers proj
 
+elementsRepeat :: Projection -> Bool
+elementsRepeat proj = elementsRepeat' (fst proj)
+
+elementsRepeat' :: [[Integer]] -> Bool
+elementsRepeat' []          = False
+elementsRepeat' [x]         = False
+elementsRepeat' [x1,x2]     = x1 == x2
+elementsRepeat' (x1:x2:xs)  = if x1 == x2 then x1 == x2 else elementsRepeat' (x2:xs)
+
 findTasties :: Integer -> Integer -> [Number]
-findTasties base weight = filter isTasty (genCands base weight)
+findTasties base weight = if base < 0 then ((filter isTasty).(map negateBase)) (genCands (abs base) weight) else filter isTasty (genCands base weight)
+    where   negateBase = \x -> (fst x, (snd x) * (-1))
 
 baseTwoTasty :: Integer -> Number
 baseTwoTasty ones = ([zeros, ones], 2)

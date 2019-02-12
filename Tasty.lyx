@@ -1,0 +1,3900 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Tasty Numbers
+\end_layout
+
+\begin_layout Author
+Kyle Mizgala, William Confer
+\end_layout
+
+\begin_layout Section
+Abstract
+\end_layout
+
+\begin_layout Standard
+This is the summary for my capstone focusing on the definition, generation,
+ and patterns of tasty numbers.
+ This document consists of the definition of tasty numbers, the mechanical
+ methods for finding tasty numbers, and the patterns that I found for tasty
+ numbers with associated proofs.
+\end_layout
+
+\begin_layout Section
+Definitions
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Projection
+\series default
+.
+ For a given natural number, the 
+\series bold
+projection
+\series default
+ is defined as an ordered list of natural numbers in the form 
+\begin_inset Formula $x_{_{0}}\rightarrow...\rightarrow x_{a}\rightarrow...\rightarrow x_{n}$
+\end_inset
+
+, where 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+is the original number, 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+is the digit root of 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, and 
+\begin_inset Formula $x_{a}$
+\end_inset
+
+is the digit sum of 
+\begin_inset Formula $x_{a-1}$
+\end_inset
+
+.
+ The function 
+\begin_inset Formula $p(n,r)$
+\end_inset
+
+ returns the projection of a number 
+\begin_inset Formula $n$
+\end_inset
+
+ for a given base 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Weight
+\series default
+.
+ Weight is defined as the number of times that a digit appears in a given
+ projection.
+ The function 
+\begin_inset Formula $w(p,d)$
+\end_inset
+
+ returns the weight of a digit where 
+\begin_inset Formula $p$
+\end_inset
+
+ is a projection and 
+\begin_inset Formula $d$
+\end_inset
+
+ is the digit in question.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tasty
+\series default
+.
+ A number is classified as 
+\series bold
+tasty
+\series default
+ in a given base if all digits of that base have the same 
+\series bold
+weight
+\series default
+.
+ In other words, a number 
+\begin_inset Formula $n$
+\end_inset
+
+ is tasty in base 
+\begin_inset Formula $r$
+\end_inset
+
+ if 
+\begin_inset Formula $w(p(n,r),0)=...=w(p(n,r),r-1)$
+\end_inset
+
+.
+ From now on, the base of a tasty number will be assumed to be the base
+ in which the number is tasty.
+ Two common examples of tasty numbers are 
+\begin_inset Formula $100_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $1034568_{10}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Order
+\series default
+.
+ The order of a tasty number is a measure of how many tasty numbers appear
+ in its projection.
+ Order is represented by the function 
+\begin_inset Formula $\sigma(n,r)$
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is a tasty number and 
+\begin_inset Formula $r$
+\end_inset
+
+ is a given base.
+ If 
+\begin_inset Formula $n$
+\end_inset
+
+ has only one tasty number in its projection (such as 
+\begin_inset Formula $100_{2}$
+\end_inset
+
+) then
+\begin_inset Formula $\sigma(n,r)=0$
+\end_inset
+
+.
+ An example of a higher order tasty number is 
+\begin_inset Formula $11110000_{2}$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $p(11110000,2)$
+\end_inset
+
+, we get 
+\begin_inset Formula $11110000_{2}\rightarrow100_{2}\rightarrow1_{2}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $11110000_{2}$
+\end_inset
+
+ is a tasty number, as is 
+\begin_inset Formula $100_{2}$
+\end_inset
+
+, so 
+\begin_inset Formula $\sigma(11110000,2)=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Confer Set Notation (CSN)
+\series default
+.
+ Tasty numbers are tested by addition.
+ Since addition is commutative, the permutation of digits in 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ are irrelevant (that is, 
+\begin_inset Formula $1034568_{10}$
+\end_inset
+
+ and 
+\begin_inset Formula $1054368_{10}$
+\end_inset
+
+ have the same projection after 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ of 
+\begin_inset Formula $x_{0}\rightarrow27_{10}\rightarrow9_{10}$
+\end_inset
+
+).
+ With this in mind, a notation was developed to leverage this and make larger
+ tasty numbers more convenient to read.
+ The notation is as follows: 
+\begin_inset Formula $[f(r-1),...,f(0)]_{r}$
+\end_inset
+
+where 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ is the number of times a digit appeares in a number.
+ Using this notation, 
+\begin_inset Formula $100_{2}$
+\end_inset
+
+ becomes 
+\begin_inset Formula $[1,2]_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $1034568_{10}$
+\end_inset
+
+ becomes 
+\begin_inset Formula $[0,1,0,1,1,1,1,0,1,1]_{10}$
+\end_inset
+
+.
+ If a base is not specified, the cardinality of the CSN serves as the base.
+ While results in a loss of information, it provides all of the information
+ that we need to work with tasty numbers.
+ From now on, all tasty numbers (but not the contents of their projections)
+ will be written in this notation.
+ Addition and subtraction in CSN is handled as such: 
+\begin_inset Formula $[a,b,c]+[d,e,f]=[a+d,b+e,c+f]$
+\end_inset
+
+ 
+\begin_inset Formula $[a,b,c]-[d,e,f]=[a-d,b-e,c-f]$
+\end_inset
+
+.
+ The function 
+\begin_inset Formula $Z(n,r)$
+\end_inset
+
+ returns a CSN of base 
+\begin_inset Formula $r$
+\end_inset
+
+ with a 1 in digit 
+\begin_inset Formula $n$
+\end_inset
+
+ and the rest of the digits being 0 (ie.
+ 
+\begin_inset Formula $Z(1,3)=[0,1,0]_{3}$
+\end_inset
+
+, 
+\begin_inset Formula $Z(0,4)=[0,0,0,1]_{4}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section*
+3 Initial Proofs
+\end_layout
+
+\begin_layout Standard
+Before sweeping patterns were seen in tasty numbers, the infinite cardinality
+ of tasty numbers in a base were found in specific instances.
+ 
+\end_layout
+
+\begin_layout Theorem*
+Infinite Tasties and Boundless Order in Base 2
+\end_layout
+
+\begin_layout Proof
+To prove that there are infinite tasties in base 2, we start with the first
+ tasty of the base, 
+\begin_inset Formula $[1,2]_{2}$
+\end_inset
+
+, and show that a tasty number of infinite order can be generated from it.
+ 
+\end_layout
+
+\begin_layout Proof
+We start by choosing the decimal value of one of the permutations.
+ For this first tasty, there is only one option: 
+\begin_inset Formula $100_{2}=4_{10}$
+\end_inset
+
+.
+ Next, we start with a base 2 number of all 1's and a length of the decimal
+ value we just chose; here that is 
+\begin_inset Formula $1111_{2}$
+\end_inset
+
+ or 
+\begin_inset Formula $[4,0]_{2}$
+\end_inset
+
+.
+ Finally, we must take this value and make a tasty number.
+ We know that the digit sum of 
+\begin_inset Formula $[4,0]_{2}$
+\end_inset
+
+ is a tasty number.
+ From this, we know that the weight of 1 and 0, excluding 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, are equal.
+ It then follows that if we add an equal number of 0's to the 1's that we
+ already have, then the result will be a tasty number.
+ After doing this, we have 
+\begin_inset Formula $[4,4]_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $p([4,4]_{2},2)=[4,4]_{2}\rightarrow100_{2}\rightarrow1_{2}$
+\end_inset
+
+, and 
+\begin_inset Formula $w(p,1)=w(p,0)=6$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+We now have a second tasty in base 2.
+ If we repeat the for 
+\begin_inset Formula $10000111_{2}$
+\end_inset
+
+, we get 
+\begin_inset Formula $[135,135]_{2}$
+\end_inset
+
+.
+ It becomes apparent that we can continue doing this indefinitely.
+ Therefore, there are infinite tasty numbers in base 2.
+ By using this method, we also have proven that there is no upper bound
+ to the order of base 2 tasties.
+\end_layout
+
+\begin_layout Section*
+4 The Weights and Bases of Tasties
+\end_layout
+
+\begin_layout Standard
+The first major pattern of tasties and the cornerstone of all progress made
+ after the initial proofs came from analyzing the smallest tasty number
+ of base 2-25.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="25" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Base
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[1 2]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 3 1 3 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 ]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 2 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 2 1 1 2 2 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 0 0 1 1 0 1 ]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 0 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 0 0 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 0 1 1 1 1 0 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 0 0 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 0 1 1 1 1 0 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 0 1 1 1 0 1 0 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 0 1 1 1 1 0 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 1 1 0 0 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10 17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The pattern is not immediately recognizable, but becomes apparent when we
+ restrict our view to even bases greater than 8.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Base
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 0 1 1 1 1 0 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 0 1 1 1 1 0 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 0 1 1 1 1 0 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 0 1 1 1 1 0 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5 10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7 12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[ 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 ] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9 14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From here we see a pattern that is dependent on the base: 
+\begin_inset Formula $[0,O(\frac{r}{2}-4),0,1,1,1,1,0,O(\frac{r}{2}-3)]_{r}$
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\begin_inset Formula $(\frac{r}{2}-3)*r+(\frac{r}{2}+2)_{r}\rightarrow(r-1)_{r}$
+\end_inset
+
+ where 
+\begin_inset Formula $O(n)$
+\end_inset
+
+ represents a string of 1's of length 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ This pattern appears for all bases 
+\begin_inset Formula $r$
+\end_inset
+
+ where 
+\begin_inset Formula $(\frac{r}{2}-4)\ge0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem*
+The above pattern holds for all bases greater than or equal to 8.
+\end_layout
+
+\begin_layout Proof
+This pattern can be shown by induction.
+\end_layout
+
+\begin_layout Proof
+Let r=8.
+ The digit sum of this pattern is found by the summation of consecutive
+ integers minus the two exceptions:
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula 
+\[
+(\sum_{i=1}^{r-2}i)-(\frac{r}{2}+2)-(\frac{r}{2}-3)=\frac{(r-1)(r-2)}{2}-r+1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+For r=8, this formula gives us 
+\begin_inset Formula $14_{10}$
+\end_inset
+
+ or 
+\begin_inset Formula $16_{8}$
+\end_inset
+
+.
+ The digit sum of 
+\begin_inset Formula $16_{8}$
+\end_inset
+
+ is 
+\begin_inset Formula $7_{8}$
+\end_inset
+
+, showing that the pattern holds for r=8.
+\end_layout
+
+\begin_layout Proof
+Now let r=k; the formula gives 
+\begin_inset Formula $\frac{(k-1)(k-2)}{2}-k+1$
+\end_inset
+
+ or 
+\begin_inset Formula $\frac{k^{2}-5k+4}{2}$
+\end_inset
+
+.
+ Now consider two of the remaining digits, 
+\begin_inset Formula $\frac{k}{2}-3$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{k}{2}+2$
+\end_inset
+
+.
+ Multiply 
+\begin_inset Formula $\frac{k}{2}-3$
+\end_inset
+
+ by the base to get 
+\begin_inset Formula $\frac{k^{2}-6k}{2}$
+\end_inset
+
+.
+ This gives a two digit number where the first digit is one of the three
+ missing digits and the second digit is 0.
+ Adding 
+\begin_inset Formula $\frac{k}{2}+2$
+\end_inset
+
+ then gives a two digit number comprised of two of the remaining digits.
+ Simplifying 
+\begin_inset Formula $\frac{k^{2}-6k}{2}+\frac{k}{2}+2$
+\end_inset
+
+ gives 
+\begin_inset Formula $\frac{k^{2}-5k+4}{2}$
+\end_inset
+
+, showing that the first formula is true.
+ Finally, we take the digit sum of the result.
+ 
+\begin_inset Formula $\frac{k}{2}-3+\frac{k}{2}+2$
+\end_inset
+
+ gives 
+\begin_inset Formula $k-1$
+\end_inset
+
+.
+ All digits of the base, k, have been produced exactly once within this
+ projection, therefore the original number is tasty.
+\end_layout
+
+\begin_layout Standard
+This proof establishes the pattern of base k weight 1 tasty numbers where
+ k is even.
+ The next pattern noticed was that of base k weight 2 tasties where k is
+ greater than 5.
+\end_layout
+
+\begin_layout Theorem*
+There is a tasty number in all bases greater than 5 where the weight is
+ 2 that abide by the following formula:
+\end_layout
+
+\begin_layout Theorem*
+\begin_inset Formula 
+\[
+[1,2,1,T(r-6),1,2,2]_{r}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem*
+where T(N) is a string of 2's of length N.
+\end_layout
+
+\begin_layout Proof
+This formula can also be proven directly.
+\end_layout
+
+\begin_layout Proof
+Let us establish the function for the first digit sum first.
+ 
+\begin_inset Formula $2*\frac{r(r-1)}{2}=r(r-1)$
+\end_inset
+
+ is the sum of the digits in base 
+\begin_inset Formula $r$
+\end_inset
+
+ multiplied by 2.
+ Now we subtract the 3 other digits: 
+\begin_inset Formula $r-1$
+\end_inset
+
+, 
+\begin_inset Formula $r-3$
+\end_inset
+
+, and 
+\begin_inset Formula $2$
+\end_inset
+
+, giving 
+\begin_inset Formula $r(r-1)-(r-1)-(r-3)-2=r^{2}-r-r+1-r+3-2=r^{2}-3r+2$
+\end_inset
+
+.
+ This time, multiply 
+\begin_inset Formula $r-3$
+\end_inset
+
+ by 
+\begin_inset Formula $r$
+\end_inset
+
+ and add 
+\begin_inset Formula $2$
+\end_inset
+
+ to get the same form of a two digit number from the previous proof: 
+\begin_inset Formula $r^{2}-3r+2$
+\end_inset
+
+.
+ From this, we see that the formula holds for the first digit sum.
+ Add the digits 
+\begin_inset Formula $r-3$
+\end_inset
+
+ and 
+\begin_inset Formula $2$
+\end_inset
+
+ to get the digit root of the number, which is 
+\begin_inset Formula $r-1$
+\end_inset
+
+.
+ All digits have appeared twice in this projection, therefore the number
+ is tasty.
+ 
+\end_layout
+
+\begin_layout Standard
+A similar pattern was found for weight 4.
+ These patterns are valid for all bases where functions such as 
+\begin_inset Formula $T(n)$
+\end_inset
+
+ and 
+\begin_inset Formula $O(n)$
+\end_inset
+
+ do not get passed a negative value for 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem*
+There is a tasty number in all bases greater than 6 where the weight is
+ 4 that abide by the following formula:
+\end_layout
+
+\begin_layout Theorem*
+\begin_inset Formula 
+\[
+[3,4,4,3,F(r-7),3,3,4]_{r}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem*
+where F(N) is a string of 4's of length N.
+\end_layout
+
+\begin_layout Proof
+We will prove this formula in the same manner as the previous one.
+\end_layout
+
+\begin_layout Proof
+The digit sum for this number is found by the same manner as weight 2: 
+\begin_inset Formula $4*\frac{r(r-1)}{2}-(r-1)-(r-4)-2-1=2r^{2}-4r+2$
+\end_inset
+
+.
+ 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ for this pattern should take the form of 
+\begin_inset Formula $1*r^{2}+(r-4)*r+2=r^{2}+r^{2}-4r+2=2r^{2}-4r+2$
+\end_inset
+
+, so the formula holds for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+.
+ Finally, 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+should be 
+\begin_inset Formula $r-1$
+\end_inset
+
+.
+ The digit sum of 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is 
+\begin_inset Formula $1+2+(r-4)=3+r-4=r-1$
+\end_inset
+
+.
+ All digits of base 
+\begin_inset Formula $r$
+\end_inset
+
+ have appeared 4 times in this projection, therefore the formula holds.
+\end_layout
+
+\begin_layout Standard
+There is a similar pattern that emerges in bases greater than 7 for weight
+ 6: 
+\begin_inset Formula $[5,6,6,6,5,S(r-8),4,6,6]_{r}$
+\end_inset
+
+ and for weight 8: 
+\begin_inset Formula $[7,8,8,8,8,7,E(r-10),7,7,8,8]_{r}$
+\end_inset
+
+.
+ After observing these patterns, rather than trying to prove them individually,
+ it is more prudent to look for a general pattern that will generate a tasty
+ number for any base and weight that it is valid for.
+ Consider this table:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Weight
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Digits subtracted from 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Minimum base for the formula
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(r-1),(r-4),2,1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(r-1),(r-5),2,2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(r-1),(r-6),2,3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(r-1),(r-7),2,5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(r-1),(r-7),2,6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is a clear linear progression for the parameters of the forumulas.
+ We will use this to generate a general theorem.
+\end_layout
+
+\begin_layout Theorem*
+For a given even weight 
+\begin_inset Formula $w$
+\end_inset
+
+ where 
+\begin_inset Formula $w>2$
+\end_inset
+
+, there is a tasty number in all bases 
+\begin_inset Formula $r\in N$
+\end_inset
+
+ such that 
+\begin_inset Formula $r\ge\frac{w}{2}+5$
+\end_inset
+
+ that abides by the following formula:
+\end_layout
+
+\begin_layout Theorem*
+\begin_inset Formula 
+\[
+[W(r)]-Z(r-1)-Z(r-(\frac{w}{2}+2))-Z(1+(\frac{w}{2}-2))-Z(2)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem*
+where 
+\begin_inset Formula $W(n)$
+\end_inset
+
+ returns a string of the value of 
+\begin_inset Formula $w$
+\end_inset
+
+ of length 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Step 1: Prove the base case of 
+\begin_inset Formula $r=7,w=4$
+\end_inset
+
+ which are the minimum values of the formula.
+\end_layout
+
+\begin_layout Proof
+The formula gives: 
+\begin_inset Formula $[4,4,4,4,4,4,4]-[1,0,0,0,0,0,0]-[0,0,0,0,1,0,0]-[0,0,0,0,0,1,0]=[3,4,4,3,3,3,4]$
+\end_inset
+
+.
+ The projection we get from this number is 
+\begin_inset Formula $[3,4,4,3,3,3,4]\rightarrow132_{7}\rightarrow6_{7}$
+\end_inset
+
+.
+ The weight of all base 7 digits is 4, therefore the number is tasty and
+ the base case for the formula holds.
+\end_layout
+
+\begin_layout Proof
+Step 2: Prove the first general case with a variable base 
+\begin_inset Formula $r$
+\end_inset
+
+ and a constant weight of 
+\begin_inset Formula $4$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+This was proven for the general formula of 
+\begin_inset Formula $w=4$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Step 3: Prove the second general case with a variable base 
+\begin_inset Formula $r=k$
+\end_inset
+
+ and a variable weight 
+\begin_inset Formula $w=l$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+For this, we assume that 
+\begin_inset Formula $k$
+\end_inset
+
+ is a valid base for 
+\begin_inset Formula $l$
+\end_inset
+
+.
+ The digit sum of 
+\begin_inset Formula $[L(k)]$
+\end_inset
+
+ where 
+\begin_inset Formula $L(n)$
+\end_inset
+
+ returns a string of 
+\begin_inset Formula $l$
+\end_inset
+
+'s of length 
+\begin_inset Formula $n$
+\end_inset
+
+ is 
+\begin_inset Formula $l\frac{k^{2}-k}{2}$
+\end_inset
+
+.
+ From this, we subtract the digits specified by the formula giving: 
+\begin_inset Formula $l\frac{k^{2}-k}{2}-(k-1)-(k-(\frac{l}{2}+2))-(1+(\frac{l}{2}-2))-2=\frac{lk^{2}-k(l+4)+4}{2}$
+\end_inset
+
+.
+ To check this digit sum, we repeat the method of the previous proofs of
+ multiplying the missing digits by increasing powers of 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ This gives: 
+\begin_inset Formula $k^{2}*(1+(\frac{l}{2}-2))+k*(k-(\frac{l}{2}+2))+2=k^{2}+\frac{lk^{2}}{2}-2k^{2}+k^{2}-\frac{lk}{2}-2k+2=\frac{lk^{2}-k(l+4)+4}{2}=x_{1}$
+\end_inset
+
+.
+ The sums are equal, therefore the formula holds for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+.
+ For the formula to be proven correct, 
+\begin_inset Formula $x_{1}=k-1$
+\end_inset
+
+ must be true.
+ From this, we get: 
+\begin_inset Formula $1+\frac{l}{2}-2+k-\frac{l}{2}-2+2=k-1=x_{2}$
+\end_inset
+
+.
+ The sum equals 
+\begin_inset Formula $k-1$
+\end_inset
+
+, hence the formula holds.
+\end_layout
+
+\begin_layout Standard
+From here we have proven that there are infinite tasty numbers in all even
+ weights, now we look at the patterns for tasty numbers in odd weights.
+ The odd weights differ from the even weights in one crucial manner: for
+ a given odd weight, tasty numbers of odd bases and tasty numbers of even
+ bases do not follow the same pattern.
+ Consider the following tables for base 14 and base 15 tasties:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Weight
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tasty in base 14
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[0,1,1,1,0,1,1,1,1,0,1,1,1,1]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[2,3,3,3,2,3,3,3,3,3,2,3,2,3]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[4,5,5,5,4,5,5,5,5,5,5,3,5,5]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[6,7,7,7,6,7,7,7,7,7,6,7,6,7]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[8,9,9,9,8,9,9,9,9,8,9,9,9,8]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Weight
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tasty in base 15
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[1,1,1,1,1,1,1,0,0,1,1,1,1,0,1]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[3,3,3,3,3,3,3,2,3,2,3,3,3,1,3]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[5,5,5,5,5,5,5,4,5,5,4,5,4,4,5]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[7,7,7,7,7,7,7,6,7,7,7,5,7,6,7]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[9,9,9,9,9,9,9,8,9,9,8,9,8,8,9]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is a clear discrepency between the two and, once again, the lowest
+ value is an outlier.
+ The common trait is that both even and odd bases have 4 digits missing
+ from 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, implying a 3 digit 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+, and a 1 digit 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+.
+ We will start with the even bases.
+ 
+\end_layout
+
+\begin_layout Theorem*
+For a given odd weight 
+\begin_inset Formula $w$
+\end_inset
+
+ where 
+\begin_inset Formula $w>1$
+\end_inset
+
+, there is a tasty number in all bases 
+\begin_inset Formula $r\in E$
+\end_inset
+
+ such that 
+\begin_inset Formula $r\ge w+5$
+\end_inset
+
+ that abides by the following formula:
+\begin_inset Formula 
+\[
+[W(r)]-Z(r-1)-Z(\frac{r}{2}+2)-Z(\frac{r}{2}-(\frac{w+1}{2}+2))-Z(\frac{w-1}{2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem*
+where 
+\begin_inset Formula $W(n)$
+\end_inset
+
+ returns a string of the value of 
+\begin_inset Formula $w$
+\end_inset
+
+ of length 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We will prove this formula using the same 3 step process as the general
+ even weight formula.
+\end_layout
+
+\begin_layout Proof
+Step 1: Prove the base case of 
+\begin_inset Formula $w=3$
+\end_inset
+
+ and 
+\begin_inset Formula $r=8$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Start the digit sum of 
+\begin_inset Formula $[2,2,3,3,3,3,2,2]\rightarrow3*\frac{8*7}{2}-7-6-1=3*28-14=84-14=70_{10}=106_{8}\rightarrow7_{8}$
+\end_inset
+
+.
+ The projection has a uniform weight of 3, so the formula holds for the
+ base case as 
+\begin_inset Formula $[2,2,3,3,3,3,2,2]$
+\end_inset
+
+ is tasty.
+\end_layout
+
+\begin_layout Proof
+Step 2: Prove the general case of 
+\begin_inset Formula $w=3$
+\end_inset
+
+ and a variable weight 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We start by calculating the formula for the general digit sum of 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+and compare it with the expected value as we have in previous proofs.
+ The formula for 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ works out to be 
+\begin_inset Formula $3*\frac{r(r-1)}{2}-(r-1)-(\frac{r}{2}+2)-(\frac{r}{2}-(\frac{3+1}{2}+2))-(\frac{3-1}{2})=\frac{3r^{2}-7r+4}{2}$
+\end_inset
+
+.
+ Now we calculate the expected 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $r^{2}*\frac{3-1}{2}+r*(\frac{r}{2}-(\frac{3+1}{2}+2))+(\frac{r}{2}+2)=r^{2}+\frac{r^{2}}{2}-4r+\frac{r}{2}+2=\frac{3r^{2}-7r+4}{2}$
+\end_inset
+
+.
+ Now that 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ has been shown to hold, we do the same for 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+.
+ The formula for 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ found to be: 
+\begin_inset Formula $\frac{3-1}{2}+(\frac{r}{2}-(\frac{3+1}{2}+2))+(\frac{r}{2}+2)=r-1$
+\end_inset
+
+ which is the expected value of 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+.
+ Therefore, the number is tasty and this formula holds.
+\end_layout
+
+\begin_layout Proof
+Step 3: Prove the overall general case of 
+\begin_inset Formula $r$
+\end_inset
+
+ and 
+\begin_inset Formula $w$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Again, we start with formula of 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $w\frac{r^{2}-r}{2}-(r-1)-(\frac{r}{2}+2)-(\frac{r}{2}-(\frac{w+1}{2}+2))-(\frac{w-1}{2})=\frac{wr^{2}-r(w+4)+4}{2}$
+\end_inset
+
+ and the expected value of 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $r^{2}(\frac{w-1}{2})+r(\frac{r}{2}-(\frac{w+1}{2}+2))+(\frac{r}{2}+2)=\frac{wr^{2}-r(w+4)+4}{2}$
+\end_inset
+
+.
+ Now that 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ has been verified, we move on to the formula for 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+: 
+\begin_inset Formula $(\frac{w-1}{2})+(\frac{r}{2}-(\frac{w+1}{2}+2))+(\frac{r}{2}+2)=r-1$
+\end_inset
+
+ which is the expected value.
+ Having verified the values of 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+,
+\begin_inset Formula $x_{1}$
+\end_inset
+
+, and 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+, we know that the number is tasty and the formula holds.
+\end_layout
+
+\begin_layout Theorem*
+For a given odd weight 
+\begin_inset Formula $w$
+\end_inset
+
+ where 
+\begin_inset Formula $w>1$
+\end_inset
+
+, there is a tasty number in all bases 
+\begin_inset Formula $r\in O$
+\end_inset
+
+ such that 
+\begin_inset Formula $r\ge w+2$
+\end_inset
+
+ that abides by the following formula:
+\begin_inset Formula 
+\[
+[W(r)]-Z(1)-Z(\frac{r-1}{2}-\frac{w+1}{2})-Z(\frac{r-1}{2})-Z(\frac{w-1}{2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem*
+where 
+\begin_inset Formula $W(n)$
+\end_inset
+
+ returns a string of the value of 
+\begin_inset Formula $w$
+\end_inset
+
+ of length 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Once again, we will use the same 3 step method to prove the formula.
+\end_layout
+
+\begin_layout Proof
+Step 1: Prove the base case of 
+\begin_inset Formula $r=5$
+\end_inset
+
+ and 
+\begin_inset Formula $w=3$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The projection is 
+\begin_inset Formula $[3,3,2,1,2]\rightarrow101_{5}\rightarrow2_{5}$
+\end_inset
+
+.
+ This has a uniform weight of 3, therefore the number is tasty and the pattern
+ holds for the base case.
+\end_layout
+
+\begin_layout Proof
+Step 2: Prove the general case of 
+\begin_inset Formula $r$
+\end_inset
+
+ and 
+\begin_inset Formula $w=3$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First we get the formula for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $3\frac{r^{2}-r}{2}-1-\frac{r-1}{2}-\frac{3-1}{2}-\frac{r-5}{2}=\frac{3r^{2}-5r+2}{2}$
+\end_inset
+
+.
+ Then we calculate the expected value for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $r^{2}(\frac{3-1}{2})+r(\frac{r-5}{2})+1=\frac{3r^{2}-5r+2}{2}$
+\end_inset
+
+.
+ Now that we have confirmed 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+, we check the formula for 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ against the expected value of 
+\begin_inset Formula $\frac{r-1}{2}$
+\end_inset
+
+: 
+\begin_inset Formula $\frac{3-1}{2}+\frac{r-5}{2}+1=\frac{r-1}{2}$
+\end_inset
+
+.
+ The check for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ hold, therefore 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ is tasty and the first general case is true.
+\end_layout
+
+\begin_layout Proof
+Step 3: Prove the overall general case of 
+\begin_inset Formula $r$
+\end_inset
+
+ and 
+\begin_inset Formula $w$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First we get the formula for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $w\frac{r^{2}-r}{2}-1-\frac{r-1}{2}-\frac{w-1}{2}-\frac{r-w-2}{2}=\frac{wr^{2}-r(w+2)+2}{2}$
+\end_inset
+
+.
+ Then we calculate the expected value for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+: 
+\begin_inset Formula $r^{2}(\frac{w-1}{2})+r(\frac{r-w-2}{2})+1=\frac{wr^{2}-r(w+2)+2}{2}$
+\end_inset
+
+.
+ Now that we have confirmed 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+, we check the formula for 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ against the expected value of 
+\begin_inset Formula $\frac{r-1}{2}$
+\end_inset
+
+: 
+\begin_inset Formula $\frac{w-1}{2}+\frac{r-w-2}{2}+1=\frac{r-1}{2}$
+\end_inset
+
+.
+ The check for 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ hold, therefore 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ is tasty and the theorem is true.
+\end_layout
+
+\begin_layout Section*
+5 The Orders of Tasties
+\end_layout
+
+\begin_layout Standard
+We have now gone through an extensive examination of the weights of tasties
+ and proven the patterns for them.
+ However, we have, as of yet, only looked at order 0 tasty numbers.
+ The first question to ask is how to generate a tasty number of a higher
+ order given a known tasty number.
+ We will use the same method that we used to prove the infinite order of
+ base 2 tasties and we will start with base 10.
+\end_layout
+
+\begin_layout Standard
+We will not be using CSN for some tasty numbers in this process.
+ The goal is to find a tasty number who's digit sum equals another tasty
+ number.
+ The easiest way to find numbers like this is to look at numbers that have
+ an equal number of every digit in the base.
+ This is because numbers like this do not throw off the weights of a tasty
+ number.
+ 
+\end_layout
+
+\begin_layout Standard
+The sum of digits in base 10 is 45.
+ This means that every number in base 10 that has an equal number of every
+ digit will have a digit sum that is a multiple of 45.
+ For this, we will look at standard tasty number in base 10: 
+\begin_inset Formula $[0,1,0,1,1,1,1,0,1,1]$
+\end_inset
+
+.
+ Given that 
+\begin_inset Formula $x_{1}=27$
+\end_inset
+
+, all permutations of this number is divisible by 9 so we only need a permutatio
+n that is divisible by 5.
+ For the sake of using minimal values, we will use 
+\begin_inset Formula $1034685_{10}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We will now divide this tasty number by 45 to get 22993.
+ 22993 will then be the weight we use for the weights in our new tasty number.
+ We now have the number: 
+\begin_inset Formula 
+\[
+[22993,22993,22993,22993,22993,22993,22993,22993,22993,22993]\rightarrow
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+1034685_{10}\rightarrow27_{10}\rightarrow9_{10}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which, given that we used the smallest possible tasty number to generate
+ this number, is the smallest order 1 tasty number in base 10.
+ An interesting pair of facts become apparent from this: this number is
+ obviously divisble by 9 given how it was generated and has numerous permuations
+ that are divisible by 5.
+ This means that this number can, infact, be used for this same process.
+ It is also clear that the number that results from this will also be divisible
+ by 9 and will have permutations that are divisible by 5.
+ From this, we can see that, not only can we find a higher order tasty number
+ by this method but we can actually find infinite tasty numbers by this
+ method.
+ Now the question that we need to ask is obvious: can we do this for all
+ bases?
+\end_layout
+
+\begin_layout Theorem*
+Given any natural base 
+\begin_inset Formula $r$
+\end_inset
+
+, there is a tasty number for which we can generate an infinite number of
+ higher order tasty numbers of boundless order.
+\end_layout
+
+\begin_layout Proof
+For this theorem, we need to prove one major lemma: every natural base has
+ a tasty number that has a permutation which is divisible by the sum of
+ digits for that base.
+ 
+\end_layout
+
+\begin_layout Proof
+It has been proven previously that if the digit root of a number is the
+ largest digit of the base, that number is divisible by the largest digit.
+ This means that any tasty number that terminates in the largest digit of
+ its base is immediately a candidate for this.
+ 
+\end_layout
+
+\begin_layout Proof
+Now let us look at the sum of digits for a base 
+\begin_inset Formula $r$
+\end_inset
+
+.
+ This can be found by 
+\begin_inset Formula $\frac{r(r-1)}{2}$
+\end_inset
+
+.
+ In the event of an even base, 
+\begin_inset Formula $\frac{r}{2}$
+\end_inset
+
+ is an integer and for odd bases, 
+\begin_inset Formula $\frac{r-1}{2}$
+\end_inset
+
+ is an integer.
+ These integers are what we need to look at for our candidates.
+ It is clear that a number 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ is divisible by 
+\begin_inset Formula $r$
+\end_inset
+
+ if the number ends in 0.
+ In the case of even bases, the number is divisible by 
+\begin_inset Formula $\frac{r}{2}$
+\end_inset
+
+ if it ends in 
+\begin_inset Formula $\frac{r}{2}$
+\end_inset
+
+.
+ The significance of this is that these cases effect the divisibility of
+ a number.
+ Therefore, if the digit root of a 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ is 
+\begin_inset Formula $r-1$
+\end_inset
+
+ (or 
+\begin_inset Formula $\frac{r-1}{2}$
+\end_inset
+
+ in the case of odd bases) and 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ contains the digit 0 (or 
+\begin_inset Formula $\frac{r}{2}$
+\end_inset
+
+ in the case of even bases), 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ is then divisible by the sum of digits in 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We know that we can generate these higher order tasty numbers in any base
+ given a valid tasty number and we now have a method for identifying valid
+ tasty numbers.
+ What we need now is a valid tasty number in every natural base.
+ Conveniently, we already have this for the majority of bases.
+ We have a formula for even weight tasty numbers in all bases greater than
+ 7.
+ In this formula, every tasty number 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ terminates in 
+\begin_inset Formula $r-1$
+\end_inset
+
+ and every tasty number also contains 
+\begin_inset Formula $\frac{r}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $0$
+\end_inset
+
+ so every valid base for this method has at least one tasty number that
+ can generate infinite tasty numbers of boundless orders.
+ We also have shown that base 2 works for this, so the only bases that need
+ to be shown to have a valid tasty number are 
+\begin_inset Formula $r=3,4,5,6,7$
+\end_inset
+
+.
+ Rather than using any general methods to find, we will simply list valid
+ examples for these 5 bases.
+ The examples and their projections are as follows: 
+\begin_inset Formula $[269,269,269]\rightarrow1002220_{3}\rightarrow21_{3}\rightarrow10_{3}\rightarrow1_{3}$
+\end_inset
+
+, 
+\begin_inset Formula $[3,3,3,3]\rightarrow102_{4}\rightarrow3_{4}$
+\end_inset
+
+,
+\begin_inset Formula $[7390,7390,7390,7390,7390]\rightarrow4331100_{5}\rightarrow22_{5}\rightarrow4_{5}$
+\end_inset
+
+,
+\begin_inset Formula $[112749,112749,112749,112749,112749,112749]\rightarrow100125443_{6}\rightarrow32_{6}\rightarrow5_{6}$
+\end_inset
+
+,
+\begin_inset Formula $[379239,379239,379239,379239,379239,379239,379239]\rightarrow124456500_{7}\rightarrow36_{7}\rightarrow12_{7}\rightarrow3_{7}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We have established that ever natural base has a valid tasty number for
+ which and infinite number of tasty numbers can be generated, therefore
+ the theorem is true.
+\end_layout
+
+\begin_layout Section*
+6 Unanswered Questions
+\end_layout
+
+\begin_layout Standard
+Over the course of this project, we extensively explored the nature of tasty
+ numbers in natural bases and the weights of these tasty numbers.
+ There were certain areas that have not been analyzed yet.
+\end_layout
+
+\begin_layout Standard
+The first and most obvious of these are tasty numbers that do not exist
+ within any of the patterns listed here.
+ An example of this is 
+\begin_inset Formula $[0,2,3,3,3,3,3,3,2,3]_{10}$
+\end_inset
+
+.
+ This number is a valid base 10 tasty number that does not abide by any
+ formulas that we have developed here.
+ It is currently unknown whether or not these numbers exist in a seperate
+ pattern, whether or not they exist in all bases, or the cardinality of
+ these tasty numbers.
+ What is known about them is that they do not exist for all weights and,
+ for the samples that we have analyzed, they appear far less frequently
+ than the tasty numbers that exist within the patterns that we have described.
+\end_layout
+
+\begin_layout Standard
+The second is less obvious but poses interesting opportunities: what tasty
+ numbers exist for bases that are not natural? Namely, we can ask this of
+ non-integer bases and negative integer bases.
+ This is a question that is, as of yet, poorly explored and we do not have
+ any substantial data on the matter.
+ What is known is that tasty numbers (at least trivial examples) do exist
+ in negative bases.
+ The main example that we know of is 
+\begin_inset Formula $[1,2]_{-2}\rightarrow1_{-2}$
+\end_inset
+
+.
+ This number is a valid tasty number in base -2.
+ 
+\end_layout
+
+\end_body
+\end_document
